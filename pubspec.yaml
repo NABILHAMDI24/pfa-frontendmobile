@@ -1,0 +1,25 @@
+name: flutter_auth_app
+description: A Flutter app for authentication with a Spring Boot backend.
+
+publish_to: 'none' # Remove this line if you want to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.6.0 <4.0.0' # Updated Dart SDK constraint
+
+dependencies:
+  flutter:
+    sdk: flutter
+  http: ^0.13.6 # For making HTTP requests
+  provider: ^6.0.0 # For state management
+  flutter_form_builder: ^9.7.0 # For form handling
+  form_builder_validators: ^11.1.1 # For form validation
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0 # For linting and code analysis
+
+flutter:
+  uses-material-design: true
