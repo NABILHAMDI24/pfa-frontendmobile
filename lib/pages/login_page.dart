@@ -18,6 +18,7 @@ class _LoginPageState extends State<LoginPage> {
   bool _show2FAInput = false; // Show 2FA input after first step
   String? _errorMessage; // Error message to display
   String? _usernameFor2FA; // Username for 2FA verification
+  bool _isPasswordVisible = false; // State to toggle password visibility
 
   final AuthService _authService = AuthService(); // Instance of AuthService
 
@@ -30,146 +31,126 @@ class _LoginPageState extends State<LoginPage> {
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              Colors.blue.shade800,
-              Colors.blue.shade400
-            ], // Gradient background
+              Colors.indigo.shade900,
+              Colors.indigo.shade500
+            ], // Updated gradient colors
           ),
         ),
         child: Center(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.all(16.0), // Padding for the content
+            padding: const EdgeInsets.all(16.0),
             child: Card(
-              elevation: 8, // Card elevation
+              elevation: 10,
               shape: RoundedRectangleBorder(
                 borderRadius:
-                    BorderRadius.circular(16), // Rounded corners for the card
+                    BorderRadius.circular(20), // More rounded corners
               ),
               child: Padding(
-                padding: const EdgeInsets.all(24.0), // Padding inside the card
+                padding: const EdgeInsets.all(24.0),
                 child: FormBuilder(
-                  key: _formKey, // Form key for validation
+                  key: _formKey,
                   child: Column(
-                    mainAxisSize: MainAxisSize.min, // Minimize the column size
+                    mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                      // Lock Icon
                       const Icon(
                         Icons.lock_outline,
                         size: 80,
-                        color: Colors.blue,
+                        color: Colors.indigo,
                       ),
-                      const SizedBox(height: 16), // Spacing
-
-                      // Sign In Title
+                      const SizedBox(height: 16),
                       const Text(
-                        'Sign In', // Changed "Login" to "Sign In"
+                        'Welcome Back',
                         style: TextStyle(
-                          fontSize: 24,
+                          fontSize: 28,
                           fontWeight: FontWeight.bold,
-                          color: Colors.blue,
+                          color: Colors.indigo,
                         ),
                       ),
-                      const SizedBox(height: 24), // Spacing
-
-                      // Username Input Field
+                      const SizedBox(height: 16),
                       FormBuilderTextField(
                         name: 'username',
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
                           labelText: 'Username',
-                          prefixIcon:
-                              Icon(Icons.person), // Icon for the input field
+                          prefixIcon: Icon(Icons.person),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
                         ),
                         validator: FormBuilderValidators.compose([
-                          FormBuilderValidators
-                              .required(), // Username is required
+                          FormBuilderValidators.required(),
                         ]),
                       ),
-                      const SizedBox(height: 16), // Spacing
-
-                      // Password Input Field
+                      const SizedBox(height: 16),
                       FormBuilderTextField(
                         name: 'password',
-                        obscureText: true, // Hide the password
-                        decoration: const InputDecoration(
+                        obscureText: !_isPasswordVisible,
+                        decoration: InputDecoration(
                           labelText: 'Password',
-                          prefixIcon:
-                              Icon(Icons.lock), // Icon for the input field
+                          prefixIcon: Icon(Icons.lock),
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                _isPasswordVisible = !_isPasswordVisible;
+                              });
+                            },
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
                         ),
                         validator: FormBuilderValidators.compose([
-                          FormBuilderValidators
-                              .required(), // Password is required
+                          FormBuilderValidators.required(),
                           FormBuilderValidators.minLength(
                               6), // Minimum password length
                         ]),
                       ),
-
-                      // 2FA Code Input Field (Shown after first step)
-                      if (_show2FAInput) ...[
-                        const SizedBox(height: 16), // Spacing
+                      const SizedBox(height: 16),
+                      if (_show2FAInput)
                         FormBuilderTextField(
                           name: 'code',
-                          decoration: const InputDecoration(
+                          decoration: InputDecoration(
                             labelText: '2FA Code',
-                            prefixIcon: Icon(
-                                Icons.security), // Icon for the input field
+                            prefixIcon: Icon(Icons.security),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
                           ),
                           validator: FormBuilderValidators.compose([
-                            FormBuilderValidators
-                                .required(), // 2FA code is required
+                            FormBuilderValidators.required(),
                           ]),
                         ),
-                      ],
-
-                      // Error Message (Shown if there's an error)
-                      if (_errorMessage != null) ...[
-                        const SizedBox(height: 16), // Spacing
+                      const SizedBox(height: 16),
+                      if (_errorMessage != null)
                         Text(
                           _errorMessage!,
-                          style: const TextStyle(
-                            color: Colors.red, // Red color for error messages
-                            fontSize: 14,
-                          ),
+                          style: TextStyle(color: Colors.red),
                         ),
-                      ],
-
-                      const SizedBox(height: 24), // Spacing
-
-                      // Sign In Button
-                      _isLoading
-                          ? const CircularProgressIndicator() // Show loading indicator
-                          : ElevatedButton(
-                              onPressed: _onSubmit, // Handle login submission
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.blue, // Button color
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 40,
-                                    vertical: 16), // Button padding
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(
-                                      12), // Rounded corners
-                                ),
-                              ),
-                              child: const Text(
-                                'Sign In', // Changed "Login" to "Sign In"
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  color: Colors
-                                      .white, // White color for the button text
-                                ),
-                              ),
-                            ),
-
-                      const SizedBox(height: 16), // Spacing
-
-                      // Sign Up Button
+                      const SizedBox(height: 16),
+                      ElevatedButton(
+                        onPressed: _isLoading ? null : _onSubmit,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.indigo,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          padding: const EdgeInsets.symmetric(vertical: 14),
+                        ),
+                        child: _isLoading
+                            ? CircularProgressIndicator(
+                                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                              )
+                            : Text('Sign In', style: TextStyle(fontSize: 18, color: Colors.white)),
+                      ),
+                      const SizedBox(height: 16),
                       TextButton(
                         onPressed: () {
                           Navigator.pushNamed(
                               context, '/signup'); // Navigate to the SignUpPage
                         },
-                        child: const Text(
-                          'Don\'t have an account? Sign Up',
-                          style: TextStyle(color: Colors.blue), // Text color
-                        ),
+                        child: Text('Don\'t have an account? Sign Up'),
                       ),
                     ],
                   ),

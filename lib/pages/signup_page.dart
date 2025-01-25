@@ -18,16 +18,19 @@ class SignUpPage extends StatelessWidget {
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [Colors.blue.shade800, Colors.blue.shade400],
+            colors: [
+              Colors.indigo.shade900,
+              Colors.indigo.shade500
+            ], // Updated gradient colors
           ),
         ),
         child: Center(
           child: SingleChildScrollView(
             padding: const EdgeInsets.all(16.0),
             child: Card(
-              elevation: 8,
+              elevation: 10,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(20),
               ),
               child: Padding(
                 padding: const EdgeInsets.all(24.0),
@@ -39,23 +42,26 @@ class SignUpPage extends StatelessWidget {
                       const Icon(
                         Icons.person_add,
                         size: 80,
-                        color: Colors.blue,
+                        color: Colors.indigo,
                       ),
                       const SizedBox(height: 16),
                       const Text(
                         'Create an Account',
                         style: TextStyle(
-                          fontSize: 24,
+                          fontSize: 28,
                           fontWeight: FontWeight.bold,
-                          color: Colors.blue,
+                          color: Colors.indigo,
                         ),
                       ),
-                      const SizedBox(height: 24),
+                      const SizedBox(height: 16),
                       FormBuilderTextField(
                         name: 'username',
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
                           labelText: 'Username',
                           prefixIcon: Icon(Icons.person),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
                         ),
                         validator: FormBuilderValidators.compose([
                           FormBuilderValidators.required(),
@@ -65,9 +71,12 @@ class SignUpPage extends StatelessWidget {
                       const SizedBox(height: 16),
                       FormBuilderTextField(
                         name: 'email',
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
                           labelText: 'Email',
                           prefixIcon: Icon(Icons.email),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
                         ),
                         validator: FormBuilderValidators.compose([
                           FormBuilderValidators.required(),
@@ -78,9 +87,12 @@ class SignUpPage extends StatelessWidget {
                       FormBuilderTextField(
                         name: 'password',
                         obscureText: true,
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
                           labelText: 'Password',
                           prefixIcon: Icon(Icons.lock),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
                         ),
                         validator: FormBuilderValidators.compose([
                           FormBuilderValidators.required(),
@@ -91,9 +103,12 @@ class SignUpPage extends StatelessWidget {
                       FormBuilderTextField(
                         name: 'confirmPassword',
                         obscureText: true,
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
                           labelText: 'Confirm Password',
                           prefixIcon: Icon(Icons.lock),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
                         ),
                         validator: FormBuilderValidators.compose([
                           FormBuilderValidators.required(),
@@ -107,8 +122,7 @@ class SignUpPage extends StatelessWidget {
                           },
                         ]),
                       ),
-                      const SizedBox(height: 24),
-                      // Sign Up Button
+                      const SizedBox(height: 16),
                       ElevatedButton(
                         onPressed: () async {
                           if (_formKey.currentState!.saveAndValidate()) {
@@ -136,35 +150,21 @@ class SignUpPage extends StatelessWidget {
                           }
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.blue,
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 40, vertical: 16),
+                          backgroundColor: Colors.indigo,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12),
                           ),
+                          padding: const EdgeInsets.symmetric(vertical: 14),
                         ),
-                        child: const Text(
-                          'Sign Up',
-                          style: TextStyle(
-                            fontSize: 16,
-                            color:
-                                Colors.white, // White text color for the button
-                          ),
-                        ),
+                        child: Text('Sign Up', style: TextStyle(fontSize: 18, color: Colors.white)),
                       ),
                       const SizedBox(height: 16),
-                      // Redirect to Sign In Page
                       TextButton(
                         onPressed: () {
                           Navigator.pop(
                               context); // Navigate back to the Sign In page
                         },
-                        child: const Text(
-                          'Already have an account? Sign In',
-                          style: TextStyle(
-                            color: Colors.blue, // Blue text color for the link
-                          ),
-                        ),
+                        child: Text('Already have an account? Sign In'),
                       ),
                     ],
                   ),

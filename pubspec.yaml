@@ -11,10 +11,12 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  image: ^3.0.1
   http: ^0.13.6 # For making HTTP requests
   provider: ^6.0.0 # For state management
   flutter_form_builder: ^9.7.0 # For form handling
   form_builder_validators: ^11.1.1 # For form validation
+  image_picker: ^1.0.7 # For camera and gallery access
 
 dev_dependencies:
   flutter_test:
